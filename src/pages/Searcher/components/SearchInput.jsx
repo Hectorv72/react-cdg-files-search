@@ -45,12 +45,17 @@ const SearchInput = () => {
   return (
     <div>
       <ReactTags
+        classNames={{
+          tagInputField: 'form-control'
+        }}
+
         tags={tags}
+        allowDragDrop={false}
         suggestions={suggestions}
         delimiters={delimiters}
         handleDelete={handleDelete}
         handleAddition={handleAdd}
-        handleDrag={handleDrag}
+        // handleDrag={handleDrag}
         handleTagClick={handleTagClick}
         inputFieldPosition="bottom"
         autocomplete

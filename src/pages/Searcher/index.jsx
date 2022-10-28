@@ -4,7 +4,7 @@ import SearchInput from './components/SearchInput'
 const Searcher = () => {
   return (
     <div>
-      <h1>Probando</h1>
+      <h1>Buscador</h1>
       <SearchInput />
     </div>
   )
