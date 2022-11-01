@@ -1,22 +1,9 @@
 import React, { useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import '../styles/ReactTags.css'
+import { delimiters } from '../helpers/SearchInputHelpers.jsx'
 
-const keyCodes = {
-  comma: 188,
-  enter: 13
-};
-
-const delimiters = [keyCodes.comma, keyCodes.enter];
-
-const suggestions = [
-  { id: 'Thailand', text: 'Thailand' },
-  { id: 'India', text: 'India' },
-  { id: 'Vietnam', text: 'Vietnam' },
-  { id: 'Turkey', text: 'Turkey' }
-]
-
-const SearchInput = () => {
+const SearchInput = ({ keyDelimiters = delimiters }) => {
 
   const [tags, setTags] = useState([])
 
@@ -28,39 +15,27 @@ const SearchInput = () => {
     setTags([...tags, tag]);
   };
 
-  const handleDrag = (tag, currPos, newPos) => {
-    const newTags = tags.slice();
-
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-
-    // re-render
-    setTags(newTags);
-  };
-
-  const handleTagClick = index => {
-    console.log('The tag at index ' + index + ' was clicked');
-  };
+  // const handleTagClick = index => {
+  //   console.log('The tag at index ' + index + ' was clicked');
+  // };
 
   return (
-    <div>
-      <ReactTags
-        classNames={{
-          tagInputField: 'form-control'
-        }}
+    <ReactTags
+      classNames={{
+        tagInputField: 'form-control'
+      }}
 
-        tags={tags}
-        allowDragDrop={false}
-        suggestions={suggestions}
-        delimiters={delimiters}
-        handleDelete={handleDelete}
-        handleAddition={handleAdd}
-        // handleDrag={handleDrag}
-        handleTagClick={handleTagClick}
-        inputFieldPosition="bottom"
-        autocomplete
-      />
-    </div>
+      tags={tags}
+      allowDragDrop={false}
+      // suggestions={suggestions}
+      delimiters={keyDelimiters}
+      handleDelete={handleDelete}
+      handleAddition={handleAdd}
+      // handleDrag={handleDrag}
+      // handleTagClick={handleTagClick}
+      inputFieldPosition="bottom"
+      autocomplete
+    />
   )
 }
 
