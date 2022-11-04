@@ -2,6 +2,7 @@
   {
     "name": "COEFICIENTE DE GINI DESDE 2004",
     "url": "https://docs.google.com/spreadsheets/d/1mKge71X9ZBx3TqiP1H4QPzouUzV_n5du0ppNu0F5Dgk/edit#gid=0",
+    "type": "spreadsheets",
     "tags": [
       "formosa",
       "años"
@@ -10,14 +11,28 @@
   {
     "name": "COPARTICIPACION FORMOSA",
     "url": "https://docs.google.com/spreadsheets/d/1_BUj6EqPqrSW0jemCG88B4VUrrXfCac6_pXLHM3Uzeg/edit#gid=0",
+    "type": "spreadsheets",
     "tags": []
   },
   {
     "name": "DNAP",
     "url": "https://drive.google.com/drive/folders/1e90M7K-b6T1ZIB5kEnHISzINLLdLVe5Q",
+    "type": "folders",
     "tags": [
       "recursos",
       "tributarios"
     ]
+  },
+  {
+    "name": "PRUEBA",
+    "url": "https://docs.google.com/document/d/1JizUCHn-sSzLVe3FAKo-wXkKC1H60skqOZFs5dVNrzo/edit",
+    "type": "document",
+    "tags": []
+  },
+  {
+    "name": "SIN TIPO",
+    "url": "https://fontawesome.com/icons/file-lines?s=regular&f=classic",
+    "type": "",
+    "tags": []
   }
 ]
