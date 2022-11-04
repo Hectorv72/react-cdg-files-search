@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import '../styles/ReactTags.css'
 import { delimiters } from '../helpers/SearchInputHelpers.jsx'
 
-const SearchInput = ({ keyDelimiters = delimiters }) => {
+const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
 
   const [tags, setTags] = useState([])
 
@@ -15,6 +15,12 @@ const SearchInput = ({ keyDelimiters = delimiters }) => {
     setTags([...tags, tag]);
   };
 
+  useEffect(() => {
+    onChange(tags.map(tag => tag.text.toLowerCase()))
+    return () => { }
+  }, [tags])
+
+
   // const handleTagClick = index => {
   //   console.log('The tag at index ' + index + ' was clicked');
   // };
@@ -24,7 +30,6 @@ const SearchInput = ({ keyDelimiters = delimiters }) => {
       classNames={{
         tagInputField: 'form-control'
       }}
-
       tags={tags}
       allowDragDrop={false}
       // suggestions={suggestions}

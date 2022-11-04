@@ -2,10 +2,10 @@ import React from 'react'
 import { ListGroupItem } from 'react-bootstrap'
 import ArchiveItemLayout from '../layouts/ArchiveItemLayout'
 
-const ArchiveItem = () => {
+const ArchiveItem = ({ title, url, tags }) => {
   return (
     <ListGroupItem>
-      <ArchiveItemLayout />
+      <ArchiveItemLayout data={{ title, url }} />
     </ListGroupItem>
   )
 }
