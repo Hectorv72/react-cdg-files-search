@@ -5,7 +5,7 @@ import { delimiters } from '../helpers/SearchInputHelpers'
 
 const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
 
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState([{ id: 'asd', text: 'asd' }])
 
   const handleDelete = i => {
     setTags(tags.filter((tag, index) => index !== i));
@@ -16,6 +16,7 @@ const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
   };
 
   useEffect(() => {
+    console.log(tags)
     onChange(tags.map(tag => tag.text.toLowerCase()))
     return () => { }
   }, [tags])
@@ -39,9 +40,9 @@ const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
         delimiters={keyDelimiters}
         handleDelete={handleDelete}
         handleAddition={handleAdd}
+        inputFieldPosition="top"
         // handleDrag={handleDrag}
         // handleTagClick={handleTagClick}
-        inputFieldPosition="bottom"
         autocomplete
       />
     </div>
