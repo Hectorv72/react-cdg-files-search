@@ -13,10 +13,10 @@
 }
 
 /* Styles for the input */
-.ReactTags__tagInput {
+/* .ReactTags__tagInput {
   border-radius: 2px;
   display: inline-block;
-}
+} */
 .ReactTags__tagInput input.ReactTags__tagInputField,
 .ReactTags__tagInput input.ReactTags__tagInputField:focus {
   height: 31px;

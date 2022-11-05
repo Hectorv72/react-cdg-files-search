@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import '../styles/ReactTags.css'
-import { delimiters } from '../helpers/SearchInputHelpers.jsx'
+import { delimiters } from '../helpers/SearchInputHelpers'
 
 const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
 
@@ -26,21 +26,25 @@ const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
   // };
 
   return (
-    <ReactTags
-      classNames={{
-        tagInputField: 'form-control'
-      }}
-      tags={tags}
-      allowDragDrop={false}
-      // suggestions={suggestions}
-      delimiters={keyDelimiters}
-      handleDelete={handleDelete}
-      handleAddition={handleAdd}
-      // handleDrag={handleDrag}
-      // handleTagClick={handleTagClick}
-      inputFieldPosition="bottom"
-      autocomplete
-    />
+    <div className='m-3'>
+      <ReactTags
+        classNames={{
+          tag: 'badge bg-primary p-2 m-1',
+          tagInputField: 'form-control',
+        }}
+        placeholder='🔍 Escribe aquí para buscar'
+        tags={tags}
+        allowDragDrop={false}
+        // suggestions={suggestions}
+        delimiters={keyDelimiters}
+        handleDelete={handleDelete}
+        handleAddition={handleAdd}
+        // handleDrag={handleDrag}
+        // handleTagClick={handleTagClick}
+        inputFieldPosition="bottom"
+        autocomplete
+      />
+    </div>
   )
 }
 

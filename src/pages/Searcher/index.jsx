@@ -4,16 +4,17 @@ import ArchiveItem from './components/ArchiveItem'
 import SearchInput from './components/SearchInput'
 import list from '../../assets/files.json'
 import sortListTypes from './helpers/sortListTypes'
+import HeaderContent from './layouts/HeaderContent'
+import DataTable from 'react-data-table-component'
+import ArchiveItemLayout from './layouts/ArchiveItemLayout'
 
 const Searcher = () => {
 
   const [listFiles, setListFiles] = useState(sortListTypes(list))
 
-  console.log(sortListTypes(list))
-
   const handleFilterText = (file, tags) => {
-    const name = file.name.toLowerCase()
-    return tags.some(tag => name.includes(tag))
+    const title = file.title.toLowerCase()
+    return tags.some(tag => title.includes(tag))
   }
 
   const handleFilterTags = (file, tags) => {
@@ -31,17 +32,44 @@ const Searcher = () => {
     }
   }
 
+  const renderColumns = [
+    {
+      name: 'Archivo',
+      // grow: 1,
+      selector: row => <ArchiveItemLayout data={row} />
+    },
+    // {
+    //   name: 'Tipo',
+    //   selector: row => row.type,
+    // },
+    {
+      name: 'Acciones',
+      grow: 0.02,
+      selector: row => <div><button className='btn'><i className="fa-solid fa-pencil"></i></button></div>
+    }
+    // {
+    //   name: 'Url',
+    //   selector: row => row.url
+    // }
+  ]
+
   return (
     <div>
-      <h1>Buscador</h1>
+      <HeaderContent />
       <SearchInput onChange={handleFindArchive} />
-      <ListGroup>
+      <DataTable
+        data={listFiles}
+        columns={renderColumns || [{}]}
+        pagination={true}
+        highlightOnHover={true}
+        pointerOnHover={true}
+        onRowClicked={(row, event) => console.log(row, event)}
+      />
+      {/* <ListGroup>
         {
-          listFiles.map(
-            ({ name, url, tags, type }, index) => <ArchiveItem key={`archive-item-${index}`} title={name} url={url} tags={tags} type={type} />
-          )
+          listFiles.map(renderItem)
         }
-      </ListGroup>
+      </ListGroup> */}
 
     </div>
   )
