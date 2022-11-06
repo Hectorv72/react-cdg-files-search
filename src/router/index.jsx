@@ -4,17 +4,24 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import FormUpload from '../pages/FormUpload';
+import Searcher from '../pages/Searcher';
 
 const routes = createBrowserRouter([
   {
-    path: '/'
+    path: '/',
+    element: <Searcher />
+  },
+  {
+    path: '/upload',
+    element: <FormUpload />
   }
 ])
 
-const index = () => {
+const AppRoutes = () => {
   return (
-    <div>index</div>
+    <RouterProvider router={routes} />
   )
 }
 
-export default index
+export default AppRoutes
