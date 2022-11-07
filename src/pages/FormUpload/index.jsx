@@ -1,8 +1,32 @@
 import React from 'react'
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import FormFileData from './components/FormFileData'
+import FormGroup from './components/FormGroup'
+import FormIconSelect from './components/FormIconSelect'
+import './styles/index.css'
 
 const FormUpload = () => {
   return (
-    <div>FormUpload</div>
+    <div className='vertical-center' style={{ backgroundColor: '#F6F9FF' }}>
+      <Container>
+        <Row className='gy-3'>
+          <Col xs={8}>
+            <FormFileData />
+          </Col>
+          <Col xs={4}>
+            <FormIconSelect />
+          </Col>
+          <Col xs={6}>
+            <FormGroup />
+          </Col>
+          <Col xs={12} className="text-center">
+            <Button variant='outline-primary' size='lg' >Guardar</Button>
+          </Col>
+        </Row>
+
+      </Container>
+    </div>
+    // <div class="shadow p-3 mb-5 bg-body rounded">Regular shadow</div>
   )
 }
 
