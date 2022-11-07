@@ -10,14 +10,18 @@ const FormUpload = () => {
     <div className='vertical-center' style={{ backgroundColor: '#F6F9FF' }}>
       <Container>
         <Row className='gy-3'>
-          <Col xs={8}>
-            <FormFileData />
+          <Col xs={9}>
+            <Row className='gy-3'>
+              <Col xs={12}>
+                <FormFileData />
+              </Col>
+              <Col xs={12}>
+                <FormGroup />
+              </Col>
+            </Row>
           </Col>
-          <Col xs={4}>
+          <Col xs={3}>
             <FormIconSelect />
-          </Col>
-          <Col xs={6}>
-            <FormGroup />
           </Col>
           <Col xs={12} className="text-center">
             <Button variant='outline-primary' size='lg' >Guardar</Button>

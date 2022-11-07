@@ -1,13 +1,19 @@
-import React from 'react'
-import { } from 'validator'
+import React, { useState } from 'react'
+// import { } from 'validator'
 import { Card, Container, Row, Col } from 'react-bootstrap'
 
 const FormFileData = () => {
+  const [validations, setValidations] = useState({
+    filename: false,
+    url: false
+  })
+
   const handleValidateUrl = (e) => {
     const exp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     const regex = new RegExp(exp);
     const { value } = e.target
-    console.log(regex.test(value))
+    const validation = regex.test(value)
+    setValidations({ ...validations, url: validation })
   }
 
   return (
@@ -21,8 +27,8 @@ const FormFileData = () => {
               <input id='filename' className='form-control' type="text" />
             </Col>
             <Col xs={12}>
-              <label htmlFor="filename" className="form-label">Url</label>
-              <input style={{ color: 'red' }} onChange={handleValidateUrl} id='filename' className='form-control' type="text" />
+              <label htmlFor="url" className="form-label">Url</label>
+              <input style={{ color: validations.url ? 'green' : 'red' }} onChange={handleValidateUrl} id='url' className='form-control' type="text" />
             </Col>
           </Row>
         </Container>

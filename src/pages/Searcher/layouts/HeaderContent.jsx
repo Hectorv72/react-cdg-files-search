@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const HeaderContent = () => {
   return (
@@ -7,10 +8,10 @@ const HeaderContent = () => {
         <h3 className='text-center'>Buscador</h3>
       </div>
       <div className='d-flex flex-row m-2 justify-content-between'>
-        <button className='btn btn-sm btn-primary mx-1 d-flex flex-row gap-2 align-items-center'>
+        <Link to={'/upload'} className='btn btn-sm btn-primary mx-1 d-flex flex-row gap-2 align-items-center'>
           <i className="fa-solid fa-arrow-up-from-bracket"></i>
           agregar
-        </button>
+        </Link>
         <button className='btn btn-sm btn-secondary mx-1 d-flex flex-row gap-2 align-items-center'>
           <i className="fa-solid fa-door-open"></i>
           salir
