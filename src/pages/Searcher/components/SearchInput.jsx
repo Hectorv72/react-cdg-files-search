@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import '../styles/ReactTags.css'
-import { delimiters } from '../helpers/SearchInputHelpers'
+import { Delimiters } from '../../../utilities/keyCodeDelimiters'
 
-const SearchInput = ({ keyDelimiters = delimiters, onChange = () => { } }) => {
+const SearchInput = ({ keyDelimiters = Delimiters, onChange = () => { } }) => {
 
   const [tags, setTags] = useState([{ id: 'asd', text: 'asd' }])
 

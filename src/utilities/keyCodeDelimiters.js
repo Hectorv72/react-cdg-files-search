@@ -4,4 +4,4 @@ export const keyCodes = {
   enter: 13
 }
 
-export const delimiters = Object.values(keyCodes)
+export const Delimiters = Object.values(keyCodes)

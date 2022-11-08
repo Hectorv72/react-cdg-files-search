@@ -37,4 +37,13 @@ export const IconsTypes = {
   folderscc: `fa-${style} fa-folder`,
   foldersee: `fa-${style} fa-folder`,
   foldersxx: `fa-${style} fa-folder`,
+  foldersy12: `fa-${style} fa-folder`,
+  foldersz12: `fa-${style} fa-folder`,
+  folderszz12: `fa-${style} fa-folder`,
+  foldersaa12: `fa-${style} fa-folder`,
+  foldersbb12: `fa-${style} fa-folder`,
+  folderstcc12: `fa-${style} fa-folder`,
+  folderscc12: `fa-${style} fa-folder`,
+  foldersee12: `fa-${style} fa-folder`,
+  foldersxx12: `fa-${style} fa-folder`,
 }

@@ -1,23 +1,23 @@
 import React from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import FormFileData from './components/FormFileData'
-import FormGroup from './components/FormGroup'
 import FormIconSelect from './components/FormIconSelect'
+// import FormTags from './components/FormTags'
 import './styles/index.css'
 
 const FormUpload = () => {
   return (
     <div className='vertical-center' style={{ backgroundColor: '#F6F9FF' }}>
       <Container>
-        <Row className='gy-3'>
+        <Row className='gy-3' >
           <Col xs={9}>
-            <Row className='gy-3'>
+            <Row className='gy-3 h-100'>
               <Col xs={12}>
                 <FormFileData />
               </Col>
-              <Col xs={12}>
-                <FormGroup />
-              </Col>
+              {/* <Col xs={12}>
+                <FormTags />
+              </Col> */}
             </Row>
           </Col>
           <Col xs={3}>

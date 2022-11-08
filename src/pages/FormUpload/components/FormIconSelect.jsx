@@ -5,12 +5,10 @@ import { IconsTypes } from '../../../utilities/IconsListTypes'
 const FormIconSelect = () => {
 
   return (
-    <Card className='shadow border-0'>
+    <Card className='shadow border-0 h-100'>
       <Card.Body>
         <Card.Title>Seleccionar icono</Card.Title>
-        <Row className='gy-2 overflow-scroll' style={{
-          maxHeight: '305px',
-        }}>
+        <Row className='gy-2 overflow-scroll'>
           {
             Object.entries(IconsTypes).map(([key, icon], index) =>
               <Col xs={'auto'} key={'iconselect-' + index}>
