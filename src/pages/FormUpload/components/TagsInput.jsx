@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { WithContext as ReactTags } from 'react-tag-input'
+import { Delimiters } from '../../../utilities/keyCodeDelimiters'
 
 const TagsInput = () => {
 
@@ -14,6 +16,7 @@ const TagsInput = () => {
 
   return (
     <ReactTags
+      id="tags"
       classNames={{
         tag: 'badge bg-primary p-2 m-1',
         tagInputField: 'form-control',

@@ -5,7 +5,7 @@ import { Delimiters } from '../../../utilities/keyCodeDelimiters'
 
 const SearchInput = ({ keyDelimiters = Delimiters, onChange = () => { } }) => {
 
-  const [tags, setTags] = useState([{ id: 'asd', text: 'asd' }])
+  const [tags, setTags] = useState([])
 
   const handleDelete = i => {
     setTags(tags.filter((tag, index) => index !== i));

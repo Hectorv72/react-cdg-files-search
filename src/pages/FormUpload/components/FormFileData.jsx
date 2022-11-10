@@ -25,12 +25,16 @@ const FormFileData = () => {
 
   return (
     <Card className='shadow border-0 h-100'>
-      <Card.Body className='d-flex align-items-center'>
-        {/* <Card.Title>Información</Card.Title> */}
+      <Card.Body >
+        <Card.Title className='text-center'>Información del archivo</Card.Title>
         <Container >
           <Row className='gy-2'>
             <Col xs={6}>
-              <label htmlFor="select-group" className="form-label">Grupo de carpeta perteneciente</label>
+              <label htmlFor="filename" className="form-label">Nombre del archivo</label>
+              <input id='filename' className='form-control' type="text" />
+            </Col>
+            <Col xs={6}>
+              <label htmlFor="select-group" className="form-label">Grupo de carpeta</label>
               <select id="select-group" className='form-select'>
                 {
                   options.map(
@@ -39,15 +43,12 @@ const FormFileData = () => {
                 }
               </select>
             </Col>
-            <Col xs={6}>
-              <label htmlFor="filename" className="form-label">Nombre del archivo</label>
-              <input id='filename' className='form-control' type="text" />
-            </Col>
             <Col xs={12}>
               <label htmlFor="url" className="form-label">Url</label>
               <input style={{ color: validations.url ? 'green' : 'red' }} onChange={handleValidateUrl} id='url' className='form-control' type="text" />
             </Col>
             <Col xs={12}>
+              <label htmlFor="tags" className="form-label">Etiquetas</label>
               <TagsInput />
             </Col>
           </Row>
