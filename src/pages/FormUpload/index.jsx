@@ -6,27 +6,37 @@ import FormIconSelect from './components/FormIconSelect'
 import FormContext from './contexts/FormContext'
 import deletePropierty from './helpers/deletePropierty'
 import findIconUrl from './helpers/findIconUrl'
-import setFormChange from './helpers/setFormChange'
+import removeError from './helpers/removeError'
+import sendFileForm from './helpers/sendFileForm'
 import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 
 const FormUpload = () => {
-  const [form, setForm] = useState({ icon: 'default' })
+  const [form, setForm] = useState({ type: 'default' })
   const [errors, setErrors] = useState({})
 
-  const handleSetFormChange = event => setForm(form => setFormChange(event, form))
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
+  const handleDeleteErrors = prop => setErrors(errors => removeError(errors, prop))
 
   const handleSetFormProperty = (value, prop) => {
-    setForm(form => {
-      return value ? { ...form, [prop]: value } : deletePropierty({ ...form }, prop)
-    })
+    setForm(form => value ? { ...form, [prop]: value } : deletePropierty({ ...form }, prop))
+    handleDeleteErrors(prop)
+  }
+
+  const handleSetFormChange = ({ target }) => {
+    const { name, value } = target
+    handleSetFormProperty(value, name)
   }
 
   const handleSendForm = async () => {
-    const { isValid } = await validateSchema(form)
+    const { isValid, errors } = await validateSchema(form)
     console.log(isValid)
-    console.log(form)
+    if (isValid) {
+      const { ok, json } = await sendFileForm(form)
+      ok && console.log(json)
+    } else {
+      setErrors(errors)
+    }
   }
 
   useEffect(() => {

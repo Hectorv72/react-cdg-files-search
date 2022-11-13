@@ -5,11 +5,11 @@ const IconSelect = ({ icon, name }) => {
 
   const { form, handleSetFormProperty } = useContext(FormContext)
   const size = { width: 32, height: 32 }
-  const selected = form?.icon === name
+  const selected = form?.type === name
   const className = `btn btn-sm btn-${selected ? '' : 'outline-'}dark d-flex justify-content-center align-items-center`
 
   return (
-    <button onClick={() => !selected && handleSetFormProperty(name, 'icon')} className={className} style={size}>
+    <button onClick={() => !selected && handleSetFormProperty(name, 'type')} className={className} style={size}>
       <i className={icon} style={{ fontSize: 20 }} />
     </button>
   )
