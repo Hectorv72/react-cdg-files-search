@@ -1,17 +1,27 @@
-import React from 'react'
-import { Card, Row, Col } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { Card, Row, Col, Container } from 'react-bootstrap'
 import { IconsTypes } from '../../../utilities/IconsListTypes'
+import FormContext from '../contexts/FormContext'
 import IconSelect from './IconSelect'
 
 const FormIconSelect = () => {
-
+  const { form } = useContext(FormContext)
 
   return (
     <Card className='shadow border-0 h-100'>
-      <Card.Body>
-        <div className='d-flex flex-column align-items-center justify-content-center h-100'>
-          <Card.Title>Seleccionar icono</Card.Title>
-          <Row className='gy-2 overflow-auto' style={{ height: `${200}px` }}>
+      <Card.Body >
+        <Card.Title className='text-center'>Seleccionar icono</Card.Title>
+        <Container className='my-2'>
+          <div className='d-flex flex-wrap overflow-auto' style={{ maxHeight: '270px' }}>
+            {
+              Object.entries(IconsTypes).map(([name, icon], index) =>
+                <div className='m-1 mx-2' key={'iconselect-' + index}>
+                  <IconSelect icon={icon} name={name} />
+                </div>
+              )
+            }
+          </div>
+          {/* <Row className='gy-2 overflow-auto' style={{ maxHeight: '270px' }}>
             {
               Object.entries(IconsTypes).map(([name, icon], index) =>
                 <Col xs={'auto'} key={'iconselect-' + index}>
@@ -19,8 +29,17 @@ const FormIconSelect = () => {
                 </Col>
               )
             }
-          </Row>
-        </div>
+          </Row> */}
+          {
+            form?.icon &&
+            <div className='text-center mt-2'>
+              <div>Icono seleccionado:</div>
+              <div>
+                <i className={IconsTypes[form.icon]}></i> {form.icon}
+              </div>
+            </div>
+          }
+        </Container>
 
       </Card.Body>
     </Card>

@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { Delimiters } from '../../../utilities/keyCodeDelimiters'
+import FormContext from '../contexts/FormContext'
 
 const TagsInput = () => {
-
   const [tags, setTags] = useState([])
+  const { handleSetFormTags } = useContext(FormContext)
 
-  const handleDelete = i => {
-    setTags(tags.filter((tag, index) => index !== i));
-  };
+  const handleDelete = i => setTags(tags.filter((tag, index) => index !== i))
 
-  const handleAdd = tag => {
-    setTags([...tags, tag]);
-  };
+  const handleAdd = tag => setTags([...tags, tag])
+
+  useEffect(() => {
+    handleSetFormTags(tags.map(tag => tag.text))
+  }, [tags])
 
   return (
     <ReactTags
@@ -26,13 +27,10 @@ const TagsInput = () => {
       placeholder='Escribe aquí para agregar'
       tags={tags}
       allowDragDrop={false}
-      // suggestions={suggestions}
       delimiters={Delimiters}
       handleDelete={handleDelete}
       handleAddition={handleAdd}
       inputFieldPosition="top"
-      // handleDrag={handleDrag}
-      // handleTagClick={handleTagClick}
       autocomplete
     />
   )
