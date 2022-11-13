@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
 import FormContext from './contexts/FormContext'
 import deletePropierty from './helpers/deletePropierty'
+import findIconUrl from './helpers/findIconUrl'
 import setFormChange from './helpers/setFormChange'
+import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 
 const FormUpload = () => {
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({ icon: 'default' })
   const [errors, setErrors] = useState({})
 
   const handleSetFormChange = event => setForm(form => setFormChange(event, form))
@@ -19,6 +22,17 @@ const FormUpload = () => {
       return value ? { ...form, [prop]: value } : deletePropierty({ ...form }, prop)
     })
   }
+
+  const handleSendForm = async () => {
+    const { isValid } = await validateSchema(form)
+    console.log(isValid)
+    console.log(form)
+  }
+
+  useEffect(() => {
+    const icon = findIconUrl(form.url)
+    icon && handleSetFormProperty(icon, 'icon')
+  }, [form.url])
 
   const context = { form, errors, handleSetFormChange, handleSetFormTags, handleSetFormProperty }
 
@@ -34,8 +48,10 @@ const FormUpload = () => {
               <FormIconSelect />
             </Col>
             <Col xs={12} className="d-flex flex-row justify-content-evenly justify-content-center">
-              <Button variant='outline-secondary' size='lg' >Salir</Button>
-              <Button variant='outline-primary' size='lg' onClick={() => console.log(form)} >Guardar</Button>
+              <Link className='btn btn-lg btn-outline-secondary' to={'/'}>
+                Salir
+              </Link>
+              <Button variant='outline-primary' size='lg' onClick={handleSendForm} >Guardar</Button>
             </Col>
           </Row>
         </Container>

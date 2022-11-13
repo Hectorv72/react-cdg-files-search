@@ -10,7 +10,7 @@ const IconSelect = ({ icon, name }) => {
 
   return (
     <button onClick={() => !selected && handleSetFormProperty(name, 'icon')} className={className} style={size}>
-      <i className={icon} style={{ fontSize: 18 }} />
+      <i className={icon} style={{ fontSize: 20 }} />
     </button>
   )
 }
