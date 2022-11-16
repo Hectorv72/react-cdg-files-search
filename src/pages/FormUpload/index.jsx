@@ -11,6 +11,8 @@ import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 
 const FormUpload = () => {
+  const params = useParams()
+  console.log(params)
   const [form, setForm] = useState({ icon: 'default' })
   const [errors, setErrors] = useState({})
 

@@ -16,9 +16,4 @@ export const IconsTypes = {
   audio: `fa-${style} fa-microphone`,
   powerpoint: `fa-${style} fa-file-powerpoint`,
   word: `fa-${style} fa-file-word`,
-  tiktok: `fa-brands fa-tiktok`,
-  youtube: `fa-brands fa-youtube`,
-  facebook: `fa-brands fa-facebook`,
-  instagram: `fa-brands fa-instagram`,
-  twitter: `fa-brands fa-twitter`,
 }

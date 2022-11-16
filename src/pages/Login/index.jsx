@@ -1,9 +1,7 @@
 import React from 'react'
-import { useRef } from 'react'
 import { useState } from 'react'
 
 const Login = () => {
-  const refForm = useRef(null)
   const [form, setForm] = useState({})
   const [errors, setErrors] = useState({})
 
@@ -14,9 +12,7 @@ const Login = () => {
 
   const handleSubmitForm = (event) => {
     event.preventDefault()
-    const form = new FormData(refForm.current)
     console.log(form)
-    console.log(event)
   }
 
   return (
@@ -33,7 +29,7 @@ const Login = () => {
                   {/* <p className="h3"></p> */}
                 </div>
 
-                <form ref={refForm} onSubmit={handleSubmitForm} className="mt-4">
+                <form onSubmit={handleSubmitForm} className="mt-4">
 
                   <div className="form-group mb-4">
                     <div className="input-group">
@@ -56,7 +52,7 @@ const Login = () => {
                   </div>
 
                   <div className="d-grid">
-                    <button disabled={false} type="submit" className="btn btn-dark">ingresar</button>
+                    <button disabled={false} type="submit" className="btn btn-dark">INGRESAR</button>
                   </div>
                 </form>
               </div>
