@@ -1,16 +1,7 @@
-export default async (form) => {
+export default async () => {
   let info = { ok: true }
   try {
-    const content = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      mode: 'cors',
-      method: 'POST',
-      body: JSON.stringify(form)
-    }
-    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/file`, content)
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/file`)
     const json = await response.json()
     info.response = response
     info.ok = response.ok

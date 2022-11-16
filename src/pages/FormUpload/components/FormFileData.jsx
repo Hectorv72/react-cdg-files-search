@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Creatable from 'react-select/creatable'
 import { Card, Container, Row, Col, Collapse } from 'react-bootstrap'
 import FormContext from '../contexts/FormContext'
 import TagsInput from './TagsInput'
 
 const options = [
-  { value: 'sad231', label: 'construccion' },
-  { value: 'zxc23', label: 'salud' },
-  { value: '3334fgds', label: 'economia' },
+  { value: 'construccion', label: 'construccion' },
+  { value: 'salud', label: 'salud' },
+  { value: 'economia', label: 'economia' },
 ]
 
 const FormFileData = () => {

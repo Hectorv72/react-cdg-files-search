@@ -25,6 +25,10 @@ const renderColumns = [
 ]
 
 const FilesTable = ({ data }) => {
+  const handleOpenLink = (file) => {
+    window.open(file.url, '_blank', 'noopener,noreferrer');
+  }
+
   return (
     <DataTable
       data={data}
@@ -32,7 +36,7 @@ const FilesTable = ({ data }) => {
       pagination={true}
       highlightOnHover={true}
       pointerOnHover={true}
-      onRowClicked={(row, event) => console.log(row, event)}
+      onRowClicked={handleOpenLink}
       noDataComponent={<label>No se encuentran elementos</label>}
       responsive={true}
     />
