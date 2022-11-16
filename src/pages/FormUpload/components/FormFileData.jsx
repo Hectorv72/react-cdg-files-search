@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Creatable from 'react-select/creatable'
-import { Card, Container, Row, Col } from 'react-bootstrap'
+import { Card, Container, Row, Col, Collapse } from 'react-bootstrap'
 import FormContext from '../contexts/FormContext'
 import TagsInput from './TagsInput'
 
 const options = [
-  { value: 'sad231', label: 'construccion' },
-  { value: 'zxc23', label: 'salud' },
-  { value: '3334fgds', label: 'economia' },
+  { value: 'construccion', label: 'construccion' },
+  { value: 'salud', label: 'salud' },
+  { value: 'economia', label: 'economia' },
 ]
 
 const FormFileData = () => {
@@ -30,7 +30,13 @@ const FormFileData = () => {
   //     <option key={'test-option-' + index} value={option.value}>{option.text}</option>
   // )
 
-  const urlStyle = { color: errors?.url ? 'red' : 'green' }
+  const urlStyle = { color: errors?.url?.show ? 'red' : '' }
+
+  const renderError = (show, message, name) => (
+    <Collapse in={show}>
+      <label htmlFor={name} className='form-label text-danger'>{message || ''}</label>
+    </Collapse>
+  )
 
   return (
     <Card className='shadow border-0 h-100'>
@@ -41,6 +47,9 @@ const FormFileData = () => {
             <Col xs={12} md={6}>
               <label htmlFor='filename' className='form-label'>Nombre del archivo:</label>
               <input id='filename' name='filename' onChange={handleSetFormChange} value={form.filename || ''} className='form-control' type='text' placeholder='Nombre' />
+              {
+                renderError(errors?.filename?.show, errors?.filename?.message, 'filename')
+              }
             </Col>
             <Col xs={12} md={6}>
               <label htmlFor='select-group' className='form-label'>Grupo de carpeta:</label>
@@ -49,10 +58,16 @@ const FormFileData = () => {
             <Col xs={12}>
               <label htmlFor='url' className='form-label'>Url:</label>
               <input style={urlStyle} id='url' name='url' onChange={handleSetFormChange} value={form.url || ''} className='form-control' type='text' placeholder='www.url.com' />
+              {
+                renderError(errors?.url?.show, errors?.url?.message, 'url')
+              }
             </Col>
             <Col xs={12}>
               <label htmlFor='tags' className='form-label'>Etiquetas: [ delimitadores: . , enter ]</label>
               <TagsInput />
+              {
+                renderError(errors?.tags?.show, errors?.tags?.message, 'tags')
+              }
             </Col>
           </Row>
         </Container>

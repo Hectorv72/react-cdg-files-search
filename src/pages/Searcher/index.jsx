@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SearchInput from './components/SearchInput'
-import list from '../../assets/files.json'
 import sortListTypes from './helpers/sortListTypes'
 import HeaderContent from './layouts/HeaderContent'
 import FilesTable from './components/FilesTable'
+import getFiles from './helpers/getFiles'
 
 const Searcher = () => {
-
-  const [listFiles, setListFiles] = useState(sortListTypes(list))
+  const [list, setList] = useState([])
+  const [listFiles, setListFiles] = useState([])
 
   const handleFilterText = (file, tags) => {
-    const title = file.title.toLowerCase()
-    return tags.some(tag => title.includes(tag))
+    const filename = file.filename.toLowerCase()
+    return tags.some(tag => filename.includes(tag))
   }
 
   const handleFilterTags = (file, tags) => {
@@ -28,6 +28,19 @@ const Searcher = () => {
       setListFiles(list)
     }
   }
+
+  const handleGetFiles = async () => {
+    const { ok, json } = await getFiles()
+    ok && setList(json.files)
+  }
+
+  useEffect(() => {
+    handleGetFiles()
+  }, [])
+
+  useEffect(() => {
+    setListFiles(sortListTypes(list))
+  }, [list])
 
   return (
     <div>

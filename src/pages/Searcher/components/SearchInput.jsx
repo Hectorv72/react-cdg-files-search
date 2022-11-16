@@ -16,7 +16,6 @@ const SearchInput = ({ keyDelimiters = Delimiters, onChange = () => { } }) => {
   };
 
   useEffect(() => {
-    console.log(tags)
     onChange(tags.map(tag => tag.text.toLowerCase()))
     return () => { }
   }, [tags])
