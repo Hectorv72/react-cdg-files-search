@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import FormUpload from '../pages/FormUpload';
+import Login from '../pages/Login';
 import Searcher from '../pages/Searcher';
 
 const routes = createBrowserRouter([
@@ -15,6 +16,10 @@ const routes = createBrowserRouter([
   {
     path: '/upload',
     element: <FormUpload />
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ])
 
