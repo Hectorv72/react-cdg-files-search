@@ -10,6 +10,7 @@ export default async (form) => {
       method: 'POST',
       body: JSON.stringify(form)
     }
+    console.log('probando')
     const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/file`, content)
     const json = await response.json()
     info.response = response

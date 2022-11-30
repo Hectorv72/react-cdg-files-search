@@ -1,5 +1,6 @@
 import React from 'react'
 import DataTable from 'react-data-table-component'
+import openLink from '../helpers/openLink'
 import ArchiveItemLayout from '../layouts/ArchiveItemLayout'
 
 const renderColumns = [
@@ -25,9 +26,6 @@ const renderColumns = [
 ]
 
 const FilesTable = ({ data }) => {
-  const handleOpenLink = (file) => {
-    window.open(file.url, '_blank', 'noopener,noreferrer');
-  }
 
   return (
     <DataTable
@@ -36,7 +34,7 @@ const FilesTable = ({ data }) => {
       pagination={true}
       highlightOnHover={true}
       pointerOnHover={true}
-      onRowClicked={handleOpenLink}
+      onRowClicked={({ url }) => openLink(url)}
       noDataComponent={<label>No se encuentran elementos</label>}
       responsive={true}
     />

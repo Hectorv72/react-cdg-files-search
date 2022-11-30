@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Button, Alert, Collapse } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
 import FormContext from './contexts/FormContext'
@@ -15,6 +15,7 @@ const FormUpload = () => {
   const initMessage = { text: '', type: '', show: false }
   const initForm = { type: 'default' }
   const params = useParams()
+  console.log(params)
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(initMessage)
@@ -73,9 +74,13 @@ const FormUpload = () => {
             </Col>
             <Col xs={12} className="d-flex flex-row justify-content-evenly justify-content-center">
               <Link className='btn btn-lg btn-outline-secondary' to={'/'}>
+                <i className="fa-solid fa-chevron-left me-2"></i>
                 Salir
               </Link>
-              <Button variant='outline-primary' size='lg' onClick={handleSendForm} >Guardar</Button>
+              <Button variant='outline-primary' size='lg' onClick={handleSendForm} >
+                <i className="fa-solid fa-floppy-disk me-2"></i>
+                Guardar
+              </Button>
             </Col>
           </Row>
         </Container>
