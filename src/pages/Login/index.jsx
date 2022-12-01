@@ -46,7 +46,7 @@ const Login = () => {
                         <span className="input-group-text px-3" id="basic-addon2">
                           <i className="fas fa-lock"></i>
                         </span>
-                        <input value={form?.password || ''} onChange={handleChangeForm} autoComplete='off' type="text" placeholder="contraseña" className="form-control" id="password" name="password" required />
+                        <input value={form?.password || ''} onChange={handleChangeForm} autoComplete='off' type="password" placeholder="contraseña" className="form-control" id="password" name="password" required />
                       </div>
                     </div>
                   </div>
