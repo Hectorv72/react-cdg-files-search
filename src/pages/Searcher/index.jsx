@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import SearchInput from './components/SearchInput'
 import sortListTypes from './helpers/sortListTypes'
-import HeaderContent from './layouts/HeaderContent'
+import HeaderContent from './components/HeaderContent'
 import FilesTable from './components/FilesTable'
 import getFiles from './helpers/getFiles'
 

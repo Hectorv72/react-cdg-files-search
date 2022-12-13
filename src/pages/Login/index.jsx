@@ -1,18 +1,26 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import useSession from '../../hooks/useSession'
+import sendLogin from './helpers/sendLogin'
 
 const Login = () => {
+  const { sessionLogin } = useSession()
   const [form, setForm] = useState({})
-  const [errors, setErrors] = useState({})
+  const [error, setError] = useState(null)
 
   const handleChangeForm = ({ target }) => {
     const { name, value } = target
     setForm(form => ({ ...form, [name]: value }))
   }
 
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = async (event) => {
     event.preventDefault()
-    console.log(form)
+    const { ok, message, token } = await sendLogin(form)
+    if (ok) {
+      sessionLogin(token)
+      window.location.href = "/"
+    } else {
+      setError(message)
+    }
   }
 
   return (
@@ -29,7 +37,7 @@ const Login = () => {
                   {/* <p className="h3"></p> */}
                 </div>
 
-                <form onSubmit={handleSubmitForm} className="mt-4">
+                <form onSubmit={handleSubmitForm} className="mt-4" autoComplete='off'>
 
                   <div className="form-group mb-4">
                     <div className="input-group">
@@ -54,6 +62,10 @@ const Login = () => {
                   <div className="d-grid">
                     <button disabled={false} type="submit" className="btn btn-dark">INGRESAR</button>
                   </div>
+                  {
+                    error &&
+                    <div className='mt-3 alert alert-danger p-1 d-flex justify-content-center'>{error}</div>
+                  }
                 </form>
               </div>
             </div>

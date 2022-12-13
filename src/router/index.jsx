@@ -1,31 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
+import useSession from '../hooks/useSession';
+import ErrorPage from '../pages/ErrorPage';
 import FormUpload from '../pages/FormUpload';
 import Login from '../pages/Login';
 import Searcher from '../pages/Searcher';
 
-const routes = createBrowserRouter([
+const loguedRoutes = createBrowserRouter([
   {
     path: '/',
-    element: <Searcher />
+    element: <Searcher />,
+    errorElement: <ErrorPage />
   },
   {
     path: '/upload',
-    element: <FormUpload />
+    element: <FormUpload />,
+    errorElement: <ErrorPage />
   },
+])
+
+const logoutRoutes = createBrowserRouter([
   {
-    path: '/login',
-    element: <Login />
-  }
+    path: '/',
+    element: <Login />,
+    errorElement: <ErrorPage />
+  },
 ])
 
 const AppRoutes = () => {
+  const { session } = useSession()
+
   return (
-    <RouterProvider router={routes} />
+    <RouterProvider router={session ? loguedRoutes : logoutRoutes} />
   )
 }
 
