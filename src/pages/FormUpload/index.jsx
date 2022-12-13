@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Button, Alert, Collapse } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
+import useFecthToken from '../../hooks/useFecthToken'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
 import FormContext from './contexts/FormContext'
 import deletePropierty from './helpers/deletePropierty'
 import findIconUrl from './helpers/findIconUrl'
 import removeError from './helpers/removeError'
-import sendFileForm from './helpers/sendFileForm'
 import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 
@@ -15,10 +15,12 @@ const FormUpload = () => {
   const initMessage = { text: '', type: '', show: false }
   const initForm = { type: 'default' }
   const params = useParams()
-  console.log(params)
+  // console.log(params)
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(initMessage)
+  const [options, setOptions] = useState([])
+  const fetchToken = useFecthToken()
 
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
   const handleDeleteErrors = prop => setErrors(errors => removeError(errors, prop))
@@ -33,15 +35,31 @@ const FormUpload = () => {
     handleSetFormProperty(value, name)
   }
 
+  const handleGetOptions = async () => {
+    try {
+      const { ok, data } = await fetchToken.get('/group')
+      ok && setOptions(data.groups)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleSendForm = async () => {
     setMessage(initMessage)
     setErrors({})
     const { isValid, errors } = await validateSchema(form)
 
     if (isValid) {
-      const { ok, message } = await sendFileForm(form)
-      setMessage({ text: message, type: ok ? 'success' : 'danger', show: true })
-      ok && setForm(initForm)
+      try {
+        const { ok, data } = await fetchToken.post('/file', form)
+        setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
+        if (ok) {
+          setForm(initForm)
+          handleGetOptions()
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       setErrors(errors)
     }
@@ -52,7 +70,11 @@ const FormUpload = () => {
     icon && handleSetFormProperty(icon, 'type')
   }, [form.url])
 
-  const context = { form, errors, message, handleSetFormChange, handleSetFormTags, handleSetFormProperty }
+  useEffect(() => {
+    handleGetOptions()
+  }, [])
+
+  const context = { form, errors, message, options, handleSetFormChange, handleSetFormTags, handleSetFormProperty }
 
   return (
     <FormContext.Provider value={context}>

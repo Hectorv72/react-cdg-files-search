@@ -3,7 +3,7 @@ import * as yup from 'yup'
 export const schema = yup.object().shape({
   filename: yup.string().trim().required('El nombre del archivo es requerido').min(5, 'Debe contener almenos 5 caracteres'),
   url: yup.string().required('La url es requerida').url('El formato de la url no es correcto'),
-  tags: yup.array().required(),
+  // tags: yup.array().required(),
 })
 
 

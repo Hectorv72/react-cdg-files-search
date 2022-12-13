@@ -3,11 +3,12 @@ import SearchInput from './components/SearchInput'
 import sortListTypes from './helpers/sortListTypes'
 import HeaderContent from './components/HeaderContent'
 import FilesTable from './components/FilesTable'
-import getFiles from './helpers/getFiles'
+import useFecthToken from '../../hooks/useFecthToken'
+import { useQuery } from 'react-query'
 
 const Searcher = () => {
-  const [list, setList] = useState([])
   const [listFiles, setListFiles] = useState([])
+  const fetchToken = useFecthToken()
 
   const handleFilterText = (file, tags) => {
     const filename = file.filename.toLowerCase()
@@ -30,16 +31,22 @@ const Searcher = () => {
   }
 
   const handleGetFiles = async () => {
-    const { ok, json } = await getFiles()
-    ok && setList(json.files)
+    try {
+      const { ok, data } = await fetchToken.get('/file')
+      return ok ? data.files : []
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  const { data: list } = useQuery('files-search', handleGetFiles)
 
   useEffect(() => {
     handleGetFiles()
   }, [])
 
   useEffect(() => {
-    setListFiles(sortListTypes(list))
+    list && setListFiles(sortListTypes(list))
   }, [list])
 
   return (

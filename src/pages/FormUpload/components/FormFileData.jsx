@@ -1,35 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Creatable from 'react-select/creatable'
 import { Card, Container, Row, Col, Collapse } from 'react-bootstrap'
 import FormContext from '../contexts/FormContext'
 import TagsInput from './TagsInput'
 
-const options = [
-  { value: 'construccion', label: 'construccion' },
-  { value: 'salud', label: 'salud' },
-  { value: 'economia', label: 'economia' },
-]
-
 const FormFileData = () => {
-  const { form, errors, handleSetFormChange, handleSetFormProperty } = useContext(FormContext)
-  // const [validations, setValidations] = useState({
-  //   filename: false,
-  //   url: false
-  // })
-
-  // const handleValidateUrl = (e) => {
-  //   const exp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-  //   const regex = new RegExp(exp);
-  //   const { value } = e.target
-  //   const validation = regex.test(value)
-  //   setValidations({ ...validations, url: validation })
-  // }
-
-  // const optionsListRender = options.map(
-  //   (option, index) =>
-  //     <option key={'test-option-' + index} value={option.value}>{option.text}</option>
-  // )
-
+  const { form, errors, options, handleSetFormChange, handleSetFormProperty } = useContext(FormContext)
   const urlStyle = { color: errors?.url?.show ? 'red' : '' }
 
   const renderError = (show, message, name) => (

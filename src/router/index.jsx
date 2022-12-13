@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -32,9 +33,18 @@ const logoutRoutes = createBrowserRouter([
 
 const AppRoutes = () => {
   const { session } = useSession()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
   return (
-    <RouterProvider router={session ? loguedRoutes : logoutRoutes} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={session ? loguedRoutes : logoutRoutes} />
+    </QueryClientProvider>
   )
 }
 
