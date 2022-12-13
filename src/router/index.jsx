@@ -19,7 +19,13 @@ const loguedRoutes = createBrowserRouter([
   {
     path: '/upload',
     element: <FormUpload />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: ':file',
+        element: <FormUpload />,
+      }
+    ]
   },
 ])
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Button, Alert, Collapse } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Container, Row, Col, Button, Collapse } from 'react-bootstrap'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import useFecthToken from '../../hooks/useFecthToken'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
@@ -11,16 +11,18 @@ import removeError from './helpers/removeError'
 import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 
+const initMessage = { text: '', type: '', show: false }
+const initForm = { type: 'default' }
+
 const FormUpload = () => {
-  const initMessage = { text: '', type: '', show: false }
-  const initForm = { type: 'default' }
-  const params = useParams()
-  // console.log(params)
+  const { file } = useParams()
+  const fetchToken = useFecthToken()
+  const navigate = useNavigate()
+
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(initMessage)
   const [options, setOptions] = useState([])
-  const fetchToken = useFecthToken()
 
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
   const handleDeleteErrors = prop => setErrors(errors => removeError(errors, prop))
@@ -30,11 +32,21 @@ const FormUpload = () => {
     handleDeleteErrors(prop)
   }
 
+  // cambia los valores del formulario
   const handleSetFormChange = ({ target }) => {
     const { name, value } = target
     handleSetFormProperty(value, name)
   }
 
+  // obtiene los datos del archivo a modificar
+  const handleGetFile = async () => {
+    const { ok, data } = await fetchToken.get(`/file/${file}`)
+    ok
+      ? setForm(data.file)
+      : navigate('/')
+  }
+
+  // obtiene las opciones del select groups
   const handleGetOptions = async () => {
     try {
       const { ok, data } = await fetchToken.get('/group')
@@ -45,24 +57,26 @@ const FormUpload = () => {
   }
 
   const handleSendForm = async () => {
+    try {
+      const { ok, data } = await fetchToken.post('/file', form)
+      setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
+      if (ok) {
+        setForm(initForm)
+        handleGetOptions()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // verifica la validez del schema de datos
+  const handleValidateSchema = async () => {
     setMessage(initMessage)
     setErrors({})
     const { isValid, errors } = await validateSchema(form)
-
-    if (isValid) {
-      try {
-        const { ok, data } = await fetchToken.post('/file', form)
-        setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
-        if (ok) {
-          setForm(initForm)
-          handleGetOptions()
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      setErrors(errors)
-    }
+    isValid
+      ? handleSendForm()
+      : setErrors(errors)
   }
 
   useEffect(() => {
@@ -71,6 +85,7 @@ const FormUpload = () => {
   }, [form.url])
 
   useEffect(() => {
+    file && handleGetFile()
     handleGetOptions()
   }, [])
 
@@ -99,7 +114,14 @@ const FormUpload = () => {
                 <i className="fa-solid fa-chevron-left me-2"></i>
                 Salir
               </Link>
-              <Button variant='outline-primary' size='lg' onClick={handleSendForm} >
+              {
+                file &&
+                <Button variant='outline-danger' size='lg' onClick={handleSendForm} >
+                  <i className="fa-solid fa-trash me-2"></i>
+                  Eliminar
+                </Button>
+              }
+              <Button variant='outline-primary' size='lg' onClick={handleValidateSchema} >
                 <i className="fa-solid fa-floppy-disk me-2"></i>
                 Guardar
               </Button>

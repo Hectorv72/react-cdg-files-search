@@ -2,6 +2,7 @@ import React from 'react'
 import DataTable from 'react-data-table-component'
 import openLink from '../helpers/openLink'
 import ArchiveItemLayout from '../layouts/ArchiveItemLayout'
+import RowActions from './RowActions'
 
 const renderColumns = [
   {
@@ -16,8 +17,8 @@ const renderColumns = [
   },
   {
     name: 'Acciones',
-    grow: 0.02,
-    selector: row => <div><button className='btn'><i className="fa-solid fa-pencil"></i></button></div>
+    grow: 0.1,
+    selector: row => <RowActions row={row} />
   }
   // {
   //   name: 'Url',
