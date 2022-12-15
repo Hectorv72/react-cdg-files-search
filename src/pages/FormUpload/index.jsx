@@ -41,8 +41,10 @@ const FormUpload = () => {
   // obtiene los datos del archivo a modificar
   const handleGetFile = async () => {
     const { ok, data } = await fetchToken.get(`/file/${file}`)
+    const { file: fileData } = data
+    const tags = fileData?.tags ? fileData.tags.map(tag => ({ id: tag, text: tag })) : []
     ok
-      ? setForm(data.file)
+      ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group }, tags })
       : navigate('/')
   }
 
@@ -58,10 +60,13 @@ const FormUpload = () => {
 
   const handleSendForm = async () => {
     try {
-      const { ok, data } = await fetchToken.post('/file', form)
+      const { ok, data } = file
+        ? await fetchToken.put('/file', form)
+        : await fetchToken.post('/file', form)
+
       setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
       if (ok) {
-        setForm(initForm)
+        !file && setForm(initForm)
         handleGetOptions()
       }
     } catch (error) {
@@ -88,6 +93,11 @@ const FormUpload = () => {
     file && handleGetFile()
     handleGetOptions()
   }, [])
+
+  // useEffect(() => {
+  //   console.log(form)
+  // }, [form])
+
 
   const context = { form, errors, message, options, handleSetFormChange, handleSetFormTags, handleSetFormProperty }
 

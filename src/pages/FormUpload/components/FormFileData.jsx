@@ -40,7 +40,7 @@ const FormFileData = () => {
             </Col>
             <Col xs={12}>
               <label htmlFor='tags' className='form-label'>Etiquetas: [ delimitadores: . , enter ]</label>
-              <TagsInput />
+              <TagsInput tags={form.tags} />
               {
                 renderError(errors?.tags?.show, errors?.tags?.message, 'tags')
               }

@@ -3,8 +3,8 @@ import { WithContext as ReactTags } from 'react-tag-input'
 import { Delimiters } from '../../../utilities/keyCodeDelimiters'
 import FormContext from '../contexts/FormContext'
 
-const TagsInput = () => {
-  const [tags, setTags] = useState([])
+const TagsInput = ({ tags: tagsList = [] }) => {
+  const [tags, setTags] = useState(tagsList)
   const { handleSetFormTags } = useContext(FormContext)
 
   const handleDelete = i => setTags(tags.filter((tag, index) => index !== i))
@@ -14,6 +14,12 @@ const TagsInput = () => {
   useEffect(() => {
     handleSetFormTags(tags.map(tag => tag.text))
   }, [tags])
+
+  useEffect(() => {
+    if (tagsList.length !== tags.length) {
+      setTags(tagsList)
+    }
+  }, [tagsList])
 
   return (
     <ReactTags
