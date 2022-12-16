@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import useFecthToken from '../../../hooks/useFecthToken'
 import FormContext from '../contexts/FormContext'
 
 const ModalDelete = () => {
   const fetchToken = useFecthToken()
+  const navigate = useNavigate()
   const { prevFileName, form, showModal, handleHideModal } = useContext(FormContext)
   const [fileName, setFileName] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,7 +20,7 @@ const ModalDelete = () => {
     try {
       setLoading(true)
       const { ok, data } = await fetchToken.delete('/file', { id: form._id })
-      console.log(data)
+      ok && navigate('/')
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -35,7 +37,7 @@ const ModalDelete = () => {
         <div className='my-2 d-flex justify-content-center'>
           <Button variant='outline-danger' onClick={handleSendDelete} disabled={prevFileName !== fileName || loading} >
             <i className="fa-solid fa-trash me-2"></i>
-            Eliminar
+            {loading ? 'Eliminando...' : 'Eliminar'}
           </Button>
         </div>
       </Modal.Body>
