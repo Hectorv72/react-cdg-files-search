@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import useFecthToken from '../../hooks/useFecthToken'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
+import ModalDelete from './components/ModalDelete'
 import FormContext from './contexts/FormContext'
 import deletePropierty from './helpers/deletePropierty'
 import findIconUrl from './helpers/findIconUrl'
@@ -19,13 +20,16 @@ const FormUpload = () => {
   const fetchToken = useFecthToken()
   const navigate = useNavigate()
 
+  const [prevFileName, setPrevFileName] = useState('')
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(initMessage)
   const [options, setOptions] = useState([])
+  const [showModal, setShowModal] = useState(false)
 
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
   const handleDeleteErrors = prop => setErrors(errors => removeError(errors, prop))
+  const handleHideModal = () => setShowModal(false)
 
   const handleSetFormProperty = (value, prop) => {
     setForm(form => value ? { ...form, [prop]: value } : deletePropierty({ ...form }, prop))
@@ -40,12 +44,18 @@ const FormUpload = () => {
 
   // obtiene los datos del archivo a modificar
   const handleGetFile = async () => {
-    const { ok, data } = await fetchToken.get(`/file/${file}`)
-    const { file: fileData } = data
-    const tags = fileData?.tags ? fileData.tags.map(tag => ({ id: tag, text: tag })) : []
-    ok
-      ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group }, tags })
-      : navigate('/')
+    try {
+      const { ok, data } = await fetchToken.get(`/file/${file}`)
+      const { file: fileData } = data
+      setPrevFileName(fileData.filename)
+      const tags = fileData?.tags ? fileData.tags.map(tag => ({ id: tag, text: tag })) : []
+      ok
+        ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group }, tags })
+        : navigate('/')
+    } catch (error) {
+      console.log(error)
+      navigate('/')
+    }
   }
 
   // obtiene las opciones del select groups
@@ -63,7 +73,6 @@ const FormUpload = () => {
       const { ok, data } = file
         ? await fetchToken.put('/file', form)
         : await fetchToken.post('/file', form)
-
       setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
       if (ok) {
         !file && setForm(initForm)
@@ -99,10 +108,11 @@ const FormUpload = () => {
   // }, [form])
 
 
-  const context = { form, errors, message, options, handleSetFormChange, handleSetFormTags, handleSetFormProperty }
+  const context = { form, errors, message, options, showModal, prevFileName, handleSetFormChange, handleSetFormTags, handleSetFormProperty, handleHideModal }
 
   return (
     <FormContext.Provider value={context}>
+      <ModalDelete />
       <div className='vertical-center' style={{ backgroundColor: '#F6F9FF' }}>
         <Container>
           <Row className='gy-3' >
@@ -126,7 +136,7 @@ const FormUpload = () => {
               </Link>
               {
                 file &&
-                <Button variant='outline-danger' size='lg' onClick={handleSendForm} >
+                <Button variant='outline-danger' size='lg' onClick={() => setShowModal(true)} >
                   <i className="fa-solid fa-trash me-2"></i>
                   Eliminar
                 </Button>

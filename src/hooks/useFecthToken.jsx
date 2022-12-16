@@ -33,6 +33,10 @@ const useFecthToken = () => {
     return await sendFetch(route, { ...initContent, method: 'PUT', body: JSON.stringify(body) })
   }
 
+  method.delete = async (route, body) => {
+    return await sendFetch(route, { ...initContent, method: 'DELETE', body: JSON.stringify(body) })
+  }
+
   return method
 
 }
