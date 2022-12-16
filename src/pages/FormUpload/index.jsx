@@ -113,7 +113,7 @@ const FormUpload = () => {
   return (
     <FormContext.Provider value={context}>
       <ModalDelete />
-      <div className='vertical-center' style={{ backgroundColor: '#F6F9FF' }}>
+      <div className='vertical-center'>
         <Container>
           <Row className='gy-3' >
             <Col xs={12} xl={9}>

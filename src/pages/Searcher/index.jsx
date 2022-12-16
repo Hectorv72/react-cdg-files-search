@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import SearchInput from './components/SearchInput'
 import sortListTypes from './helpers/sortListTypes'
-import HeaderContent from './components/HeaderContent'
 import FilesTable from './components/FilesTable'
 import useFecthToken from '../../hooks/useFecthToken'
 import { useQuery } from 'react-query'
+import { Card, Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const Searcher = () => {
   const [listFiles, setListFiles] = useState([])
@@ -39,7 +40,7 @@ const Searcher = () => {
     }
   }
 
-  const { data: list } = useQuery('files-search', handleGetFiles)
+  const { data: list, isLoading } = useQuery('files-search', handleGetFiles)
 
   useEffect(() => {
     handleGetFiles()
@@ -51,9 +52,28 @@ const Searcher = () => {
 
   return (
     <div>
-      <HeaderContent />
-      <SearchInput onChange={handleFindArchive} />
-      <FilesTable data={listFiles} />
+      <Container className='mt-5'>
+        <Card className='shadow border-0 h-100 p-2'>
+          <Card.Body>
+            <div className='d-flex flex-row'>
+              <div className='flex-fill'>
+                <SearchInput onChange={handleFindArchive} />
+              </div>
+              <div className='d-flex flex-row align-items-center'>
+                <Link to={'/upload'} className='btn btn-sm btn-outline-primary d-flex flex-row gap-2 align-items-center'>
+                  <i className="fa-solid fa-arrow-up-from-bracket"></i>
+                  Agregar
+                </Link>
+              </div>
+            </div>
+            {
+              isLoading
+                ? <div className='text-center'>Cargando...</div>
+                : <FilesTable data={listFiles} />
+            }
+          </Card.Body>
+        </Card>
+      </Container>
     </div>
   )
 }
