@@ -29,11 +29,13 @@ const ModalDelete = () => {
 
   return (
     <Modal show={showModal} onHide={handleHideModal}>
-      <Modal.Header closeButton>Eliminar Archivo</Modal.Header>
       <Modal.Body>
+        <div className='text-end'>
+          <button className='btn-close' onClick={handleHideModal} />
+        </div>
         <div>Para eliminar el archivo escribe:</div>
         <strong>{prevFileName}</strong>
-        <input type='text' value={fileName} className='form-control' onChange={handleSetFileName} />
+        <input type='text' value={fileName} className='form-control mt-2' onChange={handleSetFileName} />
         <div className='my-2 d-flex justify-content-center'>
           <Button variant='outline-danger' onClick={handleSendDelete} disabled={prevFileName !== fileName || loading} >
             <i className="fa-solid fa-trash me-2"></i>

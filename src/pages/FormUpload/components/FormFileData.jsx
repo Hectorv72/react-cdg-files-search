@@ -17,7 +17,7 @@ const FormFileData = () => {
   return (
     <Card className='shadow border-0 h-100'>
       <Card.Body >
-        <Card.Title className='text-center'>Información del archivo</Card.Title>
+        {/* <Card.Title className='text-center'>Información del archivo</Card.Title> */}
         <Container className='my-3'>
           <Row className='gy-2'>
             <Col xs={12} md={6}>
@@ -40,7 +40,7 @@ const FormFileData = () => {
             </Col>
             <Col xs={12}>
               <label htmlFor='tags' className='form-label'>Etiquetas: [ delimitadores: . , enter ]</label>
-              <TagsInput tags={form.tags} />
+              <TagsInput tags={form?.tags?.map(tag => ({ id: tag, text: tag })) || []} />
               {
                 renderError(errors?.tags?.show, errors?.tags?.message, 'tags')
               }

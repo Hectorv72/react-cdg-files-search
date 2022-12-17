@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Button, Collapse } from 'react-bootstrap'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useFecthToken from '../../hooks/useFecthToken'
 import FormFileData from './components/FormFileData'
 import FormIconSelect from './components/FormIconSelect'
@@ -21,6 +21,7 @@ const FormUpload = () => {
   const navigate = useNavigate()
 
   const [prevFileName, setPrevFileName] = useState('')
+  const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(initMessage)
@@ -48,9 +49,8 @@ const FormUpload = () => {
       const { ok, data } = await fetchToken.get(`/file/${file}`)
       const { file: fileData } = data
       setPrevFileName(fileData.filename)
-      const tags = fileData?.tags ? fileData.tags.map(tag => ({ id: tag, text: tag })) : []
       ok
-        ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group }, tags })
+        ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group } })
         : navigate('/')
     } catch (error) {
       console.log(error)
@@ -70,10 +70,13 @@ const FormUpload = () => {
 
   const handleSendForm = async () => {
     try {
+      setLoading(true)
       const { ok, data } = file
         ? await fetchToken.put('/file', form)
         : await fetchToken.post('/file', form)
+      setLoading(false)
       setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
+      // setLoading(false)
       if (ok) {
         !file && setForm(initForm)
         handleGetOptions()
@@ -113,7 +116,7 @@ const FormUpload = () => {
   return (
     <FormContext.Provider value={context}>
       <ModalDelete />
-      <div className='vertical-center'>
+      <div className='mt-5'>
         <Container>
           <Row className='gy-3' >
             <Col xs={12} xl={9}>
@@ -130,10 +133,10 @@ const FormUpload = () => {
               </Collapse>
             </Col>
             <Col xs={12} className="d-flex flex-row justify-content-evenly justify-content-center">
-              <Link className='btn btn-lg btn-outline-secondary' to={'/'}>
+              <Button variant='outline-secondary' size='lg' onClick={() => navigate('/')} >
                 <i className="fa-solid fa-chevron-left me-2"></i>
-                Salir
-              </Link>
+                Volver
+              </Button>
               {
                 file &&
                 <Button variant='outline-danger' size='lg' onClick={() => setShowModal(true)} >
@@ -143,7 +146,11 @@ const FormUpload = () => {
               }
               <Button variant='outline-primary' size='lg' onClick={handleValidateSchema} >
                 <i className="fa-solid fa-floppy-disk me-2"></i>
-                Guardar
+                {
+                  loading
+                    ? 'Guardando...'
+                    : 'Guardar'
+                }
               </Button>
             </Col>
           </Row>

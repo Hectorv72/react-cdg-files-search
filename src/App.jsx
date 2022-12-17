@@ -5,7 +5,7 @@ import AppRoutes from './router'
 const App = () => {
 
   return (
-    <div style={{ backgroundColor: '#F6F9FF' }}>
+    <div>
       <HeaderNavbar />
       <AppRoutes />
     </div>

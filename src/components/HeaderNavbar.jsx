@@ -11,14 +11,14 @@ const HeaderNavbar = () => {
   }
 
   return (
-    <div className='d-flex flex-row justify-content-between'>
+    <div className='d-flex flex-row justify-content-between p-1' style={{ backgroundColor: '#0074BD' }}>
       <div>
-        <img className='my-1 ms-2' src={imgHeader} style={{ width: 400 }} />
+        <img className='my-1 ms-2' src={imgHeader} style={{ width: 300 }} />
       </div>
       {
         session &&
         <div className='d-flex align-items-center me-3'>
-          <button onClick={handleLogout} className='btn btn-sm btn-secondary mx-1 d-flex flex-row gap-2 align-items-center'>
+          <button onClick={handleLogout} className='btn btn-sm btn-outline-light mx-1 d-flex flex-row gap-2 align-items-center'>
             <i className="fa-solid fa-door-open"></i>
             salir
           </button>

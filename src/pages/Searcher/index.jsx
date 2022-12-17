@@ -11,6 +11,11 @@ const Searcher = () => {
   const [listFiles, setListFiles] = useState([])
   const fetchToken = useFecthToken()
 
+  const handleFilterGroups = (file, tags) => {
+    const group = file.group.toLowerCase()
+    return tags.some(tag => tag === group)
+  }
+
   const handleFilterText = (file, tags) => {
     const filename = file.filename.toLowerCase()
     return tags.some(tag => filename.includes(tag))
@@ -24,7 +29,8 @@ const Searcher = () => {
     if (tags.length > 0) {
       const first = list.filter(file => handleFilterText(file, tags))
       const second = list.filter(file => handleFilterTags(file, tags))
-      const union = new Set([...first, ...second])
+      const third = list.filter(file => handleFilterGroups(file, tags))
+      const union = new Set([...first, ...second, ...third])
       setListFiles(sortListTypes([...union]))
     } else {
       setListFiles(list)

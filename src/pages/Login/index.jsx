@@ -26,7 +26,7 @@ const Login = () => {
   return (
     <main>
       {/* <!-- Section --> */}
-      <section className="vh-100 bg-soft d-flex align-items-center">
+      <section className="mt-5">
         <div className="container">
           <div className="row justify-content-center form-bg-image" data-background-lg="../../assets/img/illustrations/signin.svg">
             <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center">

@@ -1,8 +1,10 @@
 import React from 'react'
-import { useRouteError } from "react-router-dom"
+import { Button } from 'react-bootstrap';
+import { useNavigate, useRouteError } from "react-router-dom"
 
 const ErrorPage = () => {
   const error = useRouteError();
+  const navigate = useNavigate()
 
   // setTimeout(() => {
   //   window.location.href = "/"
@@ -15,6 +17,7 @@ const ErrorPage = () => {
       <p>
         <i>{error.statusText || error.message}</i>
       </p>
+      <Button variant='outline-primary' onClick={() => navigate('/')}>Volver</Button>
     </div>
   )
 }
