@@ -4,6 +4,7 @@ import sendLogin from './helpers/sendLogin'
 
 const Login = () => {
   const { sessionLogin } = useSession()
+  const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({})
   const [error, setError] = useState(null)
 
@@ -14,12 +15,16 @@ const Login = () => {
 
   const handleSubmitForm = async (event) => {
     event.preventDefault()
-    const { ok, message, token } = await sendLogin(form)
-    if (ok) {
-      sessionLogin(token)
-      window.location.href = "/"
-    } else {
-      setError(message)
+    setLoading(true)
+    try {
+      const { ok, message, token } = await sendLogin(form)
+      ok
+        ? sessionLogin(token)
+        : setError(message)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
     }
   }
 
@@ -34,7 +39,6 @@ const Login = () => {
 
                 <div className="text-center text-md-center mb-4 mt-md-0 animate__animated animate__pulse">
                   <img src={'https://cdn-icons-png.flaticon.com/512/61/61457.png'} width={100} alt="lock image" />
-                  {/* <p className="h3"></p> */}
                 </div>
 
                 <form onSubmit={handleSubmitForm} className="mt-4" autoComplete='off'>
@@ -60,7 +64,11 @@ const Login = () => {
                   </div>
 
                   <div className="d-grid">
-                    <button disabled={false} type="submit" className="btn btn-dark">INGRESAR</button>
+                    <button disabled={loading} type="submit" className="btn btn-dark">
+                      {
+                        loading ? 'INGRESANDO...' : 'INGRESAR'
+                      }
+                    </button>
                   </div>
                   {
                     error &&

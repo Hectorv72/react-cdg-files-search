@@ -29,7 +29,7 @@ const FormFileData = () => {
             </Col>
             <Col xs={12} md={6}>
               <label htmlFor='select-group' className='form-label'>Grupo de carpeta:</label>
-              <Creatable id='select-group' isClearable options={options} onChange={(option) => handleSetFormProperty(option, 'group')} value={form?.group || null} />
+              <Creatable id='select-group' isClearable options={options} onChange={(option) => handleSetFormProperty(option, 'group')} value={form.group} />
             </Col>
             <Col xs={12}>
               <label htmlFor='url' className='form-label'>Url:</label>

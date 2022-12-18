@@ -12,7 +12,7 @@ const Searcher = () => {
   const fetchToken = useFecthToken()
 
   const handleFilterGroups = (file, tags) => {
-    const group = file.group.toLowerCase()
+    const group = file?.group?.toLowerCase() || null
     return tags.some(tag => tag === group)
   }
 

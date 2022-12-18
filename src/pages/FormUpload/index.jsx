@@ -48,9 +48,10 @@ const FormUpload = () => {
     try {
       const { ok, data } = await fetchToken.get(`/file/${file}`)
       const { file: fileData } = data
+      const group = fileData.group ? { value: fileData.group, label: fileData.group } : null
       setPrevFileName(fileData.filename)
       ok
-        ? setForm({ ...fileData, group: { value: fileData.group, label: fileData.group } })
+        ? setForm({ ...fileData, group })
         : navigate('/')
     } catch (error) {
       console.log(error)
@@ -106,9 +107,9 @@ const FormUpload = () => {
     handleGetOptions()
   }, [])
 
-  // useEffect(() => {
-  //   console.log(form)
-  // }, [form])
+  useEffect(() => {
+    console.log(form)
+  }, [form])
 
 
   const context = { form, errors, message, options, showModal, prevFileName, handleSetFormChange, handleSetFormTags, handleSetFormProperty, handleHideModal }

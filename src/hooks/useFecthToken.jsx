@@ -1,7 +1,7 @@
 import useSession from './useSession'
 
 const useFecthToken = () => {
-  const { session } = useSession()
+  const { session, sessionLogout } = useSession()
 
   const initContent = {
     headers: {
@@ -18,6 +18,7 @@ const useFecthToken = () => {
     const response = await fetch(import.meta.env.VITE_SERVER_URL + route, content)
     const { ok, status } = response
     const data = await response.json()
+    status === 401 && sessionLogout()
     return { ok, status, data }
   }
 

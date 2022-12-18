@@ -7,11 +7,13 @@ const useSession = () => {
   const sessionLogin = (token) => {
     localStorage.setItem('token', token)
     setSession(token)
+    window.location.href = "/"
   }
 
   const sessionLogout = () => {
     localStorage.removeItem('token')
     setSession(null)
+    window.location.href = "/"
   }
 
   return ({ session, sessionLogin, sessionLogout })
