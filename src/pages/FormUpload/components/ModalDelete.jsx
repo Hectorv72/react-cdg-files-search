@@ -7,7 +7,7 @@ import FormContext from '../contexts/FormContext'
 const ModalDelete = () => {
   const fetchToken = useFecthToken()
   const navigate = useNavigate()
-  const { prevFileName, form, showModal, handleHideModal } = useContext(FormContext)
+  const { prevFile, form, showModal, handleHideModal } = useContext(FormContext)
   const [fileName, setFileName] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +19,7 @@ const ModalDelete = () => {
   const handleSendDelete = async () => {
     try {
       setLoading(true)
-      const { ok, data } = await fetchToken.delete('/file', { id: form._id })
+      const { ok } = await fetchToken.delete('/file', { id: form._id })
       ok && navigate('/')
       setLoading(false)
     } catch (error) {
@@ -34,10 +34,10 @@ const ModalDelete = () => {
           <button className='btn-close' onClick={handleHideModal} />
         </div>
         <div>Para eliminar el archivo escribe:</div>
-        <strong>{prevFileName}</strong>
+        <strong>{prevFile.filename}</strong>
         <input type='text' value={fileName} className='form-control mt-2' onChange={handleSetFileName} />
         <div className='my-2 d-flex justify-content-center'>
-          <Button variant='outline-danger' onClick={handleSendDelete} disabled={prevFileName !== fileName || loading} >
+          <Button variant='outline-danger' onClick={handleSendDelete} disabled={prevFile.filename !== fileName || loading} >
             <i className="fa-solid fa-trash me-2"></i>
             {loading ? 'Eliminando...' : 'Eliminar'}
           </Button>

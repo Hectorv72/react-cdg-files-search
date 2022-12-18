@@ -20,12 +20,13 @@ const FormUpload = () => {
   const fetchToken = useFecthToken()
   const navigate = useNavigate()
 
-  const [prevFileName, setPrevFileName] = useState('')
-  const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(initForm)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(initMessage)
   const [options, setOptions] = useState([])
+  const [disabled, setDisabled] = useState(false)
+  const [prevFile, setPrevFile] = useState('')
   const [showModal, setShowModal] = useState(false)
 
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
@@ -49,7 +50,7 @@ const FormUpload = () => {
       const { ok, data } = await fetchToken.get(`/file/${file}`)
       const { file: fileData } = data
       const group = fileData.group ? { value: fileData.group, label: fileData.group } : null
-      setPrevFileName(fileData.filename)
+      setPrevFile(JSON.parse(JSON.stringify({ ...fileData, group })))
       ok
         ? setForm({ ...fileData, group })
         : navigate('/')
@@ -77,8 +78,9 @@ const FormUpload = () => {
         : await fetchToken.post('/file', form)
       setLoading(false)
       setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
-      // setLoading(false)
       if (ok) {
+        file && setPrevFile({ ...form })
+        setDisabled(true)
         !file && setForm(initForm)
         handleGetOptions()
       }
@@ -108,11 +110,17 @@ const FormUpload = () => {
   }, [])
 
   useEffect(() => {
-    console.log(form)
+    if (file) {
+      if (JSON.stringify(form) !== JSON.stringify(prevFile)) {
+        setDisabled(false)
+      } else {
+        setDisabled(true)
+      }
+    }
   }, [form])
 
 
-  const context = { form, errors, message, options, showModal, prevFileName, handleSetFormChange, handleSetFormTags, handleSetFormProperty, handleHideModal }
+  const context = { form, errors, message, options, showModal, prevFile, handleSetFormChange, handleSetFormTags, handleSetFormProperty, handleHideModal }
 
   return (
     <FormContext.Provider value={context}>
@@ -145,7 +153,7 @@ const FormUpload = () => {
                   Eliminar
                 </Button>
               }
-              <Button variant='outline-primary' size='lg' onClick={handleValidateSchema} >
+              <Button variant='outline-primary' size='lg' disabled={disabled || loading} onClick={handleValidateSchema} >
                 <i className="fa-solid fa-floppy-disk me-2"></i>
                 {
                   loading

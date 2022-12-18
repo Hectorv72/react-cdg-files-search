@@ -65,7 +65,7 @@ const Searcher = () => {
               <div className='flex-fill'>
                 <SearchInput onChange={handleFindArchive} />
               </div>
-              <div className='d-flex flex-row align-items-center'>
+              <div style={{ marginTop: 16 }}>
                 <Link to={'/upload'} className='btn btn-sm btn-outline-primary d-flex flex-row gap-2 align-items-center'>
                   <i className="fa-solid fa-arrow-up-from-bracket"></i>
                   Agregar

@@ -38,6 +38,11 @@ const FilesTable = ({ data }) => {
       onRowClicked={({ url }) => openLink(url)}
       noDataComponent={<label>No se encuentran elementos</label>}
       responsive={true}
+      paginationPerPage={5}
+      paginationRowsPerPageOptions={[5, 10, 15]}
+      paginationComponentOptions={
+        { rowsPerPageText: "elementos por pagina" }
+      }
     />
   )
 }
