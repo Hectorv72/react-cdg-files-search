@@ -80,11 +80,12 @@ const FormUpload = () => {
       setMessage({ text: data.message, type: ok ? 'success' : 'danger', show: true })
       if (ok) {
         file && setPrevFile({ ...form })
-        setDisabled(true)
+        file && setDisabled(true)
         !file && setForm(initForm)
         handleGetOptions()
       }
     } catch (error) {
+      setDisabled(true)
       console.log(error)
     }
   }

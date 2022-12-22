@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import SearchInput from './components/SearchInput'
 import sortListTypes from './helpers/sortListTypes'
+import sortByFilename from './helpers/sortByFilename'
 import FilesTable from './components/FilesTable'
 import useFecthToken from '../../hooks/useFecthToken'
 import { useQuery } from 'react-query'
@@ -25,13 +26,18 @@ const Searcher = () => {
     return tags.some(tag => file.tags.includes(tag))
   }
 
+  const handleSortRows = (list) => {
+    const sorted = sortListTypes([...list])
+    return sortByFilename([...sorted])
+  }
+
   const handleFindArchive = (tags) => {
     if (tags.length > 0) {
       const first = list.filter(file => handleFilterText(file, tags))
       const second = list.filter(file => handleFilterTags(file, tags))
       const third = list.filter(file => handleFilterGroups(file, tags))
       const union = new Set([...first, ...second, ...third])
-      setListFiles(sortListTypes([...union]))
+      setListFiles(handleSortRows([...union]))
     } else {
       setListFiles(list)
     }
@@ -40,7 +46,7 @@ const Searcher = () => {
   const handleGetFiles = async () => {
     try {
       const { ok, data } = await fetchToken.get('/file')
-      return ok ? data.files : []
+      return ok ? handleSortRows([...data.files]) : []
     } catch (error) {
       console.log(error)
     }
@@ -48,9 +54,9 @@ const Searcher = () => {
 
   const { data: list, isLoading } = useQuery('files-search', handleGetFiles)
 
-  useEffect(() => {
-    handleGetFiles()
-  }, [])
+  // useEffect(() => {
+  //   handleGetFiles()
+  // }, [])
 
   useEffect(() => {
     list && setListFiles(sortListTypes(list))
