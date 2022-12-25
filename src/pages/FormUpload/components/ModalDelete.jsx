@@ -16,14 +16,17 @@ const ModalDelete = () => {
     setFileName(value)
   }
 
-  const handleSendDelete = async () => {
-    try {
-      setLoading(true)
-      const { ok } = await fetchToken.delete('/file', { id: form._id })
-      ok && navigate('/')
-      setLoading(false)
-    } catch (error) {
-      console.log(error)
+  const handleSendDelete = async (event) => {
+    event.preventDefault()
+    if (prevFile.filename === fileName) {
+      try {
+        setLoading(true)
+        const { ok } = await fetchToken.delete('/file', { id: form._id })
+        ok && navigate('/')
+        setLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -35,13 +38,15 @@ const ModalDelete = () => {
         </div>
         <div>Para eliminar el archivo escribe:</div>
         <strong>{prevFile.filename}</strong>
-        <input type='text' value={fileName} className='form-control mt-2' onChange={handleSetFileName} />
-        <div className='my-2 d-flex justify-content-center'>
-          <Button variant='outline-danger' onClick={handleSendDelete} disabled={prevFile.filename !== fileName || loading} >
-            <i className="fa-solid fa-trash me-2"></i>
-            {loading ? 'Eliminando...' : 'Eliminar'}
-          </Button>
-        </div>
+        <form onSubmit={handleSendDelete}>
+          <input type='text' value={fileName} className='form-control mt-2' onChange={handleSetFileName} />
+          <div className='my-2 d-flex justify-content-center'>
+            <Button type='submit' variant='outline-danger' disabled={prevFile.filename !== fileName || loading} >
+              <i className="fa-solid fa-trash me-2"></i>
+              {loading ? 'Eliminando...' : 'Eliminar'}
+            </Button>
+          </div>
+        </form>
       </Modal.Body>
     </Modal>
   )

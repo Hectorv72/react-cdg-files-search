@@ -11,6 +11,7 @@ import findIconUrl from './helpers/findIconUrl'
 import removeError from './helpers/removeError'
 import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
+import parseErrors from './helpers/parseErrors'
 
 const initMessage = { text: '', type: '', show: false }
 const initForm = { type: 'default' }
@@ -83,6 +84,8 @@ const FormUpload = () => {
         file && setDisabled(true)
         !file && setForm(initForm)
         handleGetOptions()
+      } else {
+        data?.errors && setErrors(parseErrors(data.errors))
       }
     } catch (error) {
       setDisabled(true)
