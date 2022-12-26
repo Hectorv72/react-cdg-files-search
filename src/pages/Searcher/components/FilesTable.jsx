@@ -36,7 +36,7 @@ const FilesTable = ({ data }) => {
       highlightOnHover={true}
       pointerOnHover={true}
       onRowClicked={({ url }) => openLink(url)}
-      noDataComponent={<label>No se encuentran elementos</label>}
+      noDataComponent={<label className='my-4'>No se encuentran elementos</label>}
       responsive={true}
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 15]}

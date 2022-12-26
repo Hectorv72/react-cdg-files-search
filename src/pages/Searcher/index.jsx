@@ -1,46 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import SearchInput from './components/SearchInput'
-import sortListTypes from './helpers/sortListTypes'
-import sortByFilename from './helpers/sortByFilename'
-import FilesTable from './components/FilesTable'
-import useFecthToken from '../../hooks/useFecthToken'
 import { useQuery } from 'react-query'
 import { Card, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Select from 'react-select'
+import FilesTable from './components/FilesTable'
+import SearchInput from './components/SearchInput'
+import sortListTypes from './helpers/sortListTypes'
+import useFecthToken from '../../hooks/useFecthToken'
+import sortByFilename from './helpers/sortByFilename'
+import sortFiles from './helpers/sortFiles'
+import options from './helpers/selectOptions'
 
 const Searcher = () => {
   const [listFiles, setListFiles] = useState([])
+  const [type, setType] = useState(null)
+  const [tags, setTags] = useState([])
   const fetchToken = useFecthToken()
 
-  const handleFilterGroups = (file, tags) => {
-    const group = file?.group?.toLowerCase() || null
-    return tags.some(tag => tag === group)
-  }
-
-  const handleFilterText = (file, tags) => {
-    const filename = file.filename.toLowerCase()
-    return tags.some(tag => filename.includes(tag))
-  }
-
-  const handleFilterTags = (file, tags) => {
-    return tags.some(tag => file.tags.includes(tag))
+  const handleFindArchive = () => {
+    let sorted = list
+    if (sorted) {
+      tags.length > 0 && (sorted = sortFiles(list, tags))
+      type && (sorted = sorted.filter(row => row.type === type))
+      setListFiles(handleSortRows([...sorted]))
+    }
   }
 
   const handleSortRows = (list) => {
     const sorted = sortListTypes([...list])
     return sortByFilename([...sorted])
-  }
-
-  const handleFindArchive = (tags) => {
-    if (tags.length > 0) {
-      const first = list.filter(file => handleFilterText(file, tags))
-      const second = list.filter(file => handleFilterTags(file, tags))
-      const third = list.filter(file => handleFilterGroups(file, tags))
-      const union = new Set([...first, ...second, ...third])
-      setListFiles(handleSortRows([...union]))
-    } else {
-      setListFiles(list)
-    }
   }
 
   const handleGetFiles = async () => {
@@ -54,9 +42,9 @@ const Searcher = () => {
 
   const { data: list, isLoading } = useQuery('files-search', handleGetFiles)
 
-  // useEffect(() => {
-  //   handleGetFiles()
-  // }, [])
+  useEffect(() => {
+    handleFindArchive()
+  }, [type, tags])
 
   useEffect(() => {
     list && setListFiles(sortListTypes(list))
@@ -68,11 +56,14 @@ const Searcher = () => {
         <Card className='shadow border-0 h-100 p-2'>
           <Card.Body>
             <div className='d-flex flex-row'>
+              <div style={{ marginTop: 16 }}>
+                <Select defaultValue={options[0]} options={options} onChange={({ value }) => setType(value)} />
+              </div>
               <div className='flex-fill'>
-                <SearchInput onChange={handleFindArchive} />
+                <SearchInput onChange={(tags) => setTags(tags)} />
               </div>
               <div style={{ marginTop: 16 }}>
-                <Link to={'/upload'} className='btn btn-sm btn-outline-primary d-flex flex-row gap-2 align-items-center'>
+                <Link to={'/upload'} style={{ height: 38 }} className='btn btn-sm btn-outline-primary d-flex flex-row gap-2 align-items-center'>
                   <i className="fa-solid fa-arrow-up-from-bracket"></i>
                   Agregar
                 </Link>
