@@ -12,6 +12,7 @@ import removeError from './helpers/removeError'
 import { validateSchema } from './schemas/FormSchema'
 import './styles/index.css'
 import parseErrors from './helpers/parseErrors'
+import Loading from './components/Loading'
 
 const initMessage = { text: '', type: '', show: false }
 const initForm = { type: 'default' }
@@ -27,7 +28,7 @@ const FormUpload = () => {
   const [message, setMessage] = useState(initMessage)
   const [options, setOptions] = useState([])
   const [disabled, setDisabled] = useState(false)
-  const [prevFile, setPrevFile] = useState('')
+  const [prevFile, setPrevFile] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
   const handleSetFormTags = tags => setForm(form => ({ ...form, tags }))
@@ -127,49 +128,55 @@ const FormUpload = () => {
   const context = { form, errors, message, options, showModal, prevFile, handleSetFormChange, handleSetFormTags, handleSetFormProperty, handleHideModal }
 
   return (
-    <FormContext.Provider value={context}>
-      <ModalDelete />
-      <div className='mt-5'>
-        <Container>
-          <Row className='gy-3' >
-            <Col xs={12} xl={9}>
-              <FormFileData />
-            </Col>
-            <Col xs={12} xl={3}>
-              <FormIconSelect />
-            </Col>
-            <Col xs={12}>
-              <Collapse in={message.show}>
-                {
-                  <div className={`alert alert-${message.type} p-1 m-0 text-center`}>{message.text}</div>
-                }
-              </Collapse>
-            </Col>
-            <Col xs={12} className="d-flex flex-row justify-content-evenly justify-content-center">
-              <Button variant='outline-secondary' size='lg' onClick={() => navigate('/')} >
-                <i className="fa-solid fa-chevron-left me-2"></i>
-                Volver
-              </Button>
-              {
-                file &&
-                <Button variant='outline-danger' size='lg' onClick={() => setShowModal(true)} >
-                  <i className="fa-solid fa-trash me-2"></i>
-                  Eliminar
+    (file ? prevFile : true)
+      ?
+      <FormContext.Provider value={context}>
+        {
+          prevFile && <ModalDelete />
+        }
+        <div className='mt-5'>
+          <Container>
+            <Row className='gy-3' >
+              <Col xs={12} xl={9}>
+                <FormFileData />
+              </Col>
+              <Col xs={12} xl={3}>
+                <FormIconSelect />
+              </Col>
+              <Col xs={12}>
+                <Collapse in={message.show}>
+                  {
+                    <div className={`alert alert-${message.type} p-1 m-0 text-center`}>{message.text}</div>
+                  }
+                </Collapse>
+              </Col>
+              <Col xs={12} className="d-flex flex-row justify-content-evenly justify-content-center">
+                <Button variant='outline-secondary' size='lg' onClick={() => navigate('/')} >
+                  <i className="fa-solid fa-chevron-left me-2"></i>
+                  Volver
                 </Button>
-              }
-              <Button variant='outline-primary' size='lg' disabled={disabled || loading} onClick={handleValidateSchema} >
-                <i className="fa-solid fa-floppy-disk me-2"></i>
                 {
-                  loading
-                    ? 'Guardando...'
-                    : 'Guardar'
+                  file &&
+                  <Button variant='outline-danger' size='lg' onClick={() => setShowModal(true)} >
+                    <i className="fa-solid fa-trash me-2"></i>
+                    Eliminar
+                  </Button>
                 }
-              </Button>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </FormContext.Provider>
+                <Button variant='outline-primary' size='lg' disabled={disabled || loading} onClick={handleValidateSchema} >
+                  <i className="fa-solid fa-floppy-disk me-2"></i>
+                  {
+                    loading
+                      ? 'Guardando...'
+                      : 'Guardar'
+                  }
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </FormContext.Provider>
+      :
+      <Loading />
   )
 }
 
