@@ -27,8 +27,8 @@ const Searcher = () => {
   }
 
   const handleSortRows = (list) => {
-    const sorted = sortListTypes([...list])
-    return sortByFilename([...sorted])
+    const sorted = sortByFilename([...list])
+    return sortListTypes([...sorted])
   }
 
   const handleGetFiles = async () => {
