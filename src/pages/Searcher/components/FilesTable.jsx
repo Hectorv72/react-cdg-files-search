@@ -41,7 +41,7 @@ const FilesTable = ({ data }) => {
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 15]}
       paginationComponentOptions={
-        { rowsPerPageText: "elementos por pagina" }
+        { rowsPerPageText: "filas por pagina" }
       }
     />
   )
